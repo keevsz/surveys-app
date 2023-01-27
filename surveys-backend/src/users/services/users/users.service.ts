@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User as UserEntity } from 'src/users/entities/User.entity';
 import { CreateUserDTO } from 'src/users/dto/CreateUser.dto';
-import { SerializedUser } from 'src/users/types/SerializeUser';
+import { SerializedUser } from 'src/types/SerializeUser';
 import { plainToClass } from 'class-transformer';
 import { UpdateUserDTO } from 'src/users/dto/UpdateUser.dto';
+import { encodePassword } from 'src/services/bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -15,7 +16,11 @@ export class UsersService {
   ) {}
 
   createUser(user: CreateUserDTO) {
-    const newUser = this.userRepository.create(user);
+    const hashedPassword = encodePassword(user.password);
+    const newUser = this.userRepository.create({
+      ...user,
+      password: hashedPassword,
+    });
     return this.userRepository.save(newUser);
   }
 
@@ -32,6 +37,18 @@ export class UsersService {
   }
 
   updateUser(id: number, user: UpdateUserDTO) {
-    return this.userRepository.update({ id }, user);
+    const hashedPassword = encodePassword(user.password);
+    return this.userRepository.update(
+      { id },
+      { ...user, password: hashedPassword },
+    );
+  }
+
+  getUserByUsername(username: string) {
+    return this.userRepository.findOne({ where: { username } });
+  }
+
+  getUserById(id: number) {
+    return this.userRepository.findOne({ where: { id } });
   }
 }
