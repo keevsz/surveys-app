@@ -23,7 +23,7 @@ async function bootstrap() {
         httpOnly: true,
         secure: false,
         expires: new Date(Date.now() + 60 * 60 * 1000),
-        sameSite: 'none',
+        sameSite: 'lax',
       },
       store: new TypeormStore().connect(sessionRepository),
     }),
