@@ -19,26 +19,23 @@
         try {
             const u = await login(username.value, password.value)
             // poner mensaje con un alert
-
-
-
+            
         } catch (error) {
             console.log(error);
+            // poner mensaje con un alert
         }
     }
     
     const con = async () =>  {
-        // const res = await api.get('/auth/status', {
-        //     headers: 
-        // })
-        // console.log(document.cookie.split('SESSION_NESTJS')[1]);
-        console.log(document.cookie);
-        
-        // cookie.value = Cookies.
+        const res = await api.get('/auth/status', {
+            withCredentials:true
+        })
+
+        console.log(res)
     }
 
     onMounted(() => {
-        // console.log(document.cookie.split('hola')[1]);
+
     })
 
 </script>

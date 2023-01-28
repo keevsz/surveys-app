@@ -2,19 +2,26 @@
     import type { Ref } from 'vue'
     import { ref } from 'vue'
     import Input from '../components/Input.vue'
-    // import api from '../../../api'
     import { useAuth } from '../composables/useAuth'
 
     const email : Ref<string> = ref('')
     const password :  Ref<string> = ref('')
 
     const signup = async () => {
-        // const res : any = await api.post('/users', {
-        //     username: email.value,
-        //     password: password.value
-        // })
 
-        // console.log(res)
+        const { register } = useAuth()
+        let user = {
+            username: email.value,
+            password: password.value
+        }
+
+        try {
+            const aux = await register(user)
+            console.log(aux)
+            
+        } catch (error) {
+            console.log(error)   
+        }
     }
 
 </script>
