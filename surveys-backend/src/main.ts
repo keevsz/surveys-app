@@ -20,7 +20,7 @@ async function bootstrap() {
       saveUninitialized: false,
       cookie: {
         maxAge: 24 * 60 * 60 * 1000,
-        httpOnly: true,
+        httpOnly: false,
         secure: false,
         expires: new Date(Date.now() + 60 * 60 * 1000),
         sameSite: 'lax',

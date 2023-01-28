@@ -18,7 +18,7 @@ export const useAuth = () => {
                     const res : IResponse = await api.post('/auth/login', {
                         username,
                         password
-                    })
+                    }, { withCredentials: true })
 
                     resolve(res)
     
@@ -35,15 +35,19 @@ export const useAuth = () => {
         return new Promise( async (resolve, reject ) => {
             try {
                 const res = await api.post('/users', {
-                    username: user.username
+                    username: user.username,
+                    password: user.password
                 })
+
+                resolve(res)
             } catch (error) {
-                
+                reject(error)                
             }
         })
     }
 
     return {
-        login
+        login,
+        register
     }
 }

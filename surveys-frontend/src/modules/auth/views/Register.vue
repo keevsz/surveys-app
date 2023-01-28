@@ -2,18 +2,19 @@
     import type { Ref } from 'vue'
     import { ref } from 'vue'
     import Input from '../components/Input.vue'
-    import api from '../../../api'
+    // import api from '../../../api'
+    import { useAuth } from '../composables/useAuth'
 
     const email : Ref<string> = ref('')
     const password :  Ref<string> = ref('')
 
-    const register = async () => {
-        const res : any = await api.post('/users', {
-            username: email.value,
-            password: password.value
-        })
+    const signup = async () => {
+        // const res : any = await api.post('/users', {
+        //     username: email.value,
+        //     password: password.value
+        // })
 
-        console.log(res)
+        // console.log(res)
     }
 
 </script>
@@ -31,7 +32,7 @@
                             <span class="block font-bold mb-2 text-blue-500 text-2xl">Regístrate</span>
                         </div>
 
-                        <form @submit.prevent="register">
+                        <form @submit.prevent="signup">
                             
                             <Input ide="email" label="Email" type-input="text" placeholder="example@gmail.com"
                                     v-model="email" />

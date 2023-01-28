@@ -1,13 +1,15 @@
 <script lang="ts" setup>
     import Input from '../components/Input.vue'
-    import type { Ref } from 'vue'
+    import { onMounted, Ref } from 'vue'
     import { ref } from 'vue'
     import { useAuthStore } from '../../../store/auth'
-    // import api from '../../../api'
+    import api from '../../../api'
     import { useAuth } from '../composables/useAuth'
+    import Cookies from 'vue-cookies'
 
     const username : Ref<string> = ref('')
     const password :  Ref<string> = ref('')
+    const cookie :  Ref<string> = ref('')
 
     const auth = useAuthStore()
     
@@ -16,12 +18,28 @@
 
         try {
             const u = await login(username.value, password.value)
-            console.log(u)
+            // poner mensaje con un alert
+
+
+
         } catch (error) {
             console.log(error);
         }
     }
     
+    const con = async () =>  {
+        // const res = await api.get('/auth/status', {
+        //     headers: 
+        // })
+        // console.log(document.cookie.split('SESSION_NESTJS')[1]);
+        console.log(document.cookie);
+        
+        // cookie.value = Cookies.
+    }
+
+    onMounted(() => {
+        // console.log(document.cookie.split('hola')[1]);
+    })
 
 </script>
 
@@ -33,7 +51,8 @@
                 <div
                 class="relative flex flex-col min-w-0 break-words w-full"
                 >
-                
+                    <button @click="con">Ver
+                    </button>
                     <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
                         <div class="mb-4">
                             <span class="block font-bold mb-2 text-blue-500 text-2xl">Inicio de Sesión</span>
