@@ -3,21 +3,23 @@
     import type { Ref } from 'vue'
     import { ref } from 'vue'
     import { useAuthStore } from '../../../store/auth'
-    import api from '../../../api'
+    // import api from '../../../api'
+    import { useAuth } from '../composables/useAuth'
 
     const username : Ref<string> = ref('')
     const password :  Ref<string> = ref('')
 
     const auth = useAuthStore()
     
-    const login = async () => {
-        const res = await api.post('/auth/login', {
-            username,
-            password
-        })
-        // console.log(res)
-        console.log(res)
-        
+    const signin = async () => {
+        const { login } = useAuth()
+
+        try {
+            const u = await login(username.value, password.value)
+            console.log(u)
+        } catch (error) {
+            console.log(error);
+        }
     }
     
 
@@ -37,7 +39,7 @@
                             <span class="block font-bold mb-2 text-blue-500 text-2xl">Inicio de Sesión</span>
                         </div>
 
-                        <form @submit.prevent="login">
+                        <form @submit.prevent="signin">
                             
                             <Input ide="email" label="Email" type-input="text" placeholder="example@gmail.com"
                                     v-model="username" />

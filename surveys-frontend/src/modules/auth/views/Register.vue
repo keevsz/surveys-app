@@ -2,9 +2,19 @@
     import type { Ref } from 'vue'
     import { ref } from 'vue'
     import Input from '../components/Input.vue'
+    import api from '../../../api'
 
     const email : Ref<string> = ref('')
     const password :  Ref<string> = ref('')
+
+    const register = async () => {
+        const res : any = await api.post('/users', {
+            username: email.value,
+            password: password.value
+        })
+
+        console.log(res)
+    }
 
 </script>
 
@@ -21,9 +31,9 @@
                             <span class="block font-bold mb-2 text-blue-500 text-2xl">Regístrate</span>
                         </div>
 
-                        <form>
+                        <form @submit.prevent="register">
                             
-                            <Input ide="email" label="Email" type-input="email" placeholder="example@gmail.com"
+                            <Input ide="email" label="Email" type-input="text" placeholder="example@gmail.com"
                                     v-model="email" />
                             
                             <Input ide="password" label="Password" type-input="password" placeholder="********" 
@@ -33,7 +43,7 @@
                             <div class="text-center mt-6">
                                 <button
                                     class="bg-blue-500 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                                    type="button"
+                                    type="submit"
                                 >
                                 Ingresar
                                 </button>
