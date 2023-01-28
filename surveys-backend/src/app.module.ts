@@ -11,7 +11,7 @@ import { AuthModule } from './auth/auth.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'P@ssw0rd',
+      password: '12345',
       database: 'surveys_system',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
