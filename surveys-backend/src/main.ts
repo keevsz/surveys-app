@@ -21,7 +21,6 @@ async function bootstrap() {
       cookie: {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
-        domain: 'http://localhost:5173',
         secure: false,
         expires: new Date(Date.now() + 60 * 60 * 1000),
         sameSite: 'lax',
