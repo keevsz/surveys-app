@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Survey } from 'src/surveys/entities/Survey.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -13,4 +14,7 @@ export class User {
 
   @Column({ default: true })
   state: boolean;
+
+  @OneToMany(() => Survey, (survey) => survey.author)
+  surveys: Survey[];
 }

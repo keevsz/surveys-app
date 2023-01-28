@@ -7,7 +7,7 @@ import { DataSource } from 'typeorm';
 import { Session } from './auth/entities/Auth.entity';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const sessionRepository = app.get(DataSource).getRepository(Session);
   app.setGlobalPrefix('api');
   app.use(
