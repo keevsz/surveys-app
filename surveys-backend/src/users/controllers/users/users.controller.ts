@@ -26,8 +26,8 @@ export class UsersController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  createUser(@Body() user: CreateUserDTO) {
-    const userExists = this.userService.getUserByUsername(user.username);
+  async createUser(@Body() user: CreateUserDTO) {
+    const userExists = await this.userService.getUserByUsername(user.username);
     if (userExists)
       throw new HttpException('Username already exists', HttpStatus.CONFLICT);
     return this.userService.createUser(user);

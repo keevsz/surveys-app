@@ -15,13 +15,14 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  createUser(user: CreateUserDTO) {
+  async createUser(user: CreateUserDTO) {
     const hashedPassword = encodePassword(user.password);
     const newUser = this.userRepository.create({
       ...user,
       password: hashedPassword,
     });
-    return this.userRepository.save(newUser);
+    const savedUser = await this.userRepository.save(newUser);
+    return plainToClass(SerializedUser, savedUser);
   }
 
   async getUsers() {
