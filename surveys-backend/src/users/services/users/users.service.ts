@@ -38,11 +38,7 @@ export class UsersService {
   }
 
   updateUser(id: number, user: UpdateUserDTO) {
-    const hashedPassword = encodePassword(user.password);
-    return this.userRepository.update(
-      { id },
-      { ...user, password: hashedPassword },
-    );
+    return this.userRepository.update({ id }, user);
   }
 
   getUserByUsername(username: string) {
