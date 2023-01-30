@@ -1,4 +1,5 @@
 import api from '../../../api'
+import { useAuthStore } from '../../../store/auth'
 
 interface IResponse {
     message: string,
@@ -9,6 +10,9 @@ interface IUser {
     username: string,
     password: string
 }
+
+
+const auth = useAuthStore()
 
 export const useAuth = () => {
 
@@ -23,7 +27,7 @@ export const useAuth = () => {
                     resolve(res)
     
                 } catch (error : any) {
-                    let aux : IResponse = error?.response.data
+                    let aux = error?.response.data
     
                     reject(aux)
                 }
@@ -40,8 +44,9 @@ export const useAuth = () => {
                 })
 
                 resolve(res)
-            } catch (error) {
-                reject(error)                
+            } catch (error : any) {
+                let send = error?.response.data
+                reject(send)                
             }
         })
     }
