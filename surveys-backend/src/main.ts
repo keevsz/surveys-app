@@ -14,8 +14,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(
     session({
-      name: 'SESSION_NESTJS',
-      secret: 'SECRET_SESSION',
+      name: process.env.SESSION_NAME,
+      secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -30,6 +30,6 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  await app.listen(3000);
+  await app.listen(process.env.PORT);
 }
 bootstrap();
