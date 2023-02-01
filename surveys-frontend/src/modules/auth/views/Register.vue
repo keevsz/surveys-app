@@ -3,6 +3,10 @@
     import { ref } from 'vue'
     import Input from '../components/Input.vue'
     import { useAuth } from '../composables/useAuth'
+    import { useRouter } from 'vue-router'
+    import Swal from 'sweetalert2'
+
+    const router = useRouter()
 
     const email : Ref<string> = ref('')
     const password :  Ref<string> = ref('')
@@ -16,11 +20,25 @@
         }
 
         try {
-            const aux = await register(user)
-            console.log(aux)
-            
-        } catch (error) {
-            console.log(error)   
+            const aux : any = await register(user)
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: `${aux.statusText}`,
+                showConfirmButton: false,
+                timer: 2000
+            })
+            router.push({ name: 'login' })
+        } catch (error : any) {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: `${error.message}`,
+                showConfirmButton: false,
+                timer: 2000
+            })
+            email.value = ""
         }
     }
 

@@ -1,6 +1,5 @@
 <template>
-    <div class="h-screen flex">
-
+    <div class="flex h-screen">
         <!-- formulario -->
             <router-view />
         <!-- end -->

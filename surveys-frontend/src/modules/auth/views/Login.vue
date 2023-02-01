@@ -1,11 +1,16 @@
 <script lang="ts" setup>
     import Input from '../components/Input.vue'
-    import { onMounted, Ref } from 'vue'
-    import { ref } from 'vue'
+    import { Ref, ref } from 'vue'
     import { useAuthStore } from '../../../store/auth'
-    import api from '../../../api'
     import { useAuth } from '../composables/useAuth'
-    import Cookies from 'vue-cookies'
+    import { useRouter } from 'vue-router'
+    import Swal from 'sweetalert2'
+
+    interface IResBad {
+        message: string
+    }
+
+    const router = useRouter()
 
     const username : Ref<string> = ref('')
     const password :  Ref<string> = ref('')
@@ -17,39 +22,38 @@
         const { login } = useAuth()
 
         try {
-            const u = await login(username.value, password.value)
-            // poner mensaje con un alert
+            const u : any = await login(username.value, password.value)
             
-        } catch (error) {
-            console.log(error);
-            // poner mensaje con un alert
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: `${u.data}`,
+                showConfirmButton: false,
+                timer: 1500
+            })
+            
+            router.push({ name: 'home-survey' })
+        } catch (error : any) {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: `${error.message}`,
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
     }
-    
-    const con = async () =>  {
-        const res = await api.get('/auth/status', {
-            withCredentials:true
-        })
-
-        console.log(res)
-    }
-
-    onMounted(() => {
-
-    })
 
 </script>
 
 <template>
     <div class="container mx-auto px-4">
-
         <div class="flex content-center items-center justify-center h-full">
             <div class="w-full lg:w-4/12 px-4">
                 <div
                 class="relative flex flex-col min-w-0 break-words w-full"
                 >
-                    <button @click="con">Ver
-                    </button>
+                    
                     <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
                         <div class="mb-4">
                             <span class="block font-bold mb-2 text-blue-500 text-2xl">Inicio de Sesión</span>
@@ -94,5 +98,4 @@
             </div>
         </div>
     </div>
-    
 </template>

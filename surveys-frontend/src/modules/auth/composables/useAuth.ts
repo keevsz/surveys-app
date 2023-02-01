@@ -1,5 +1,6 @@
-import api from '../../../api'
 import { useAuthStore } from '../../../store/auth'
+import api from '../../../api'
+import { useRouter } from 'vue-router'
 
 interface IResponse {
     message: string,
@@ -11,10 +12,11 @@ interface IUser {
     password: string
 }
 
-
-const auth = useAuthStore()
-
 export const useAuth = () => {
+
+    const auth = useAuthStore()
+
+    // const router = useRouter()
 
     const login = ( username : string, password : string ) => {
             return new Promise(async (resolve, reject) => {
@@ -23,6 +25,8 @@ export const useAuth = () => {
                         username,
                         password
                     }, { withCredentials: true })
+                  
+                    auth.setCookie(document.cookie)
 
                     resolve(res)
     
@@ -42,17 +46,36 @@ export const useAuth = () => {
                     username: user.username,
                     password: user.password
                 })
-
                 resolve(res)
             } catch (error : any) {
+                console.log(error);
+                
                 let send = error?.response.data
                 reject(send)                
             }
         })
     }
 
+    const initAuth = () => {
+        // var a store cookie
+        return new Promise( async (resolve, reject) => {
+            try {
+                const res = await api.get('/auth/status', {
+                    withCredentials:true
+                })
+
+                auth.setCookie(document.cookie)
+                resolve(true)
+            } catch (error) {
+                auth.setCookie('')
+                reject(false)
+            }
+        })
+    }
+
     return {
         login,
-        register
+        register,
+        initAuth
     }
 }

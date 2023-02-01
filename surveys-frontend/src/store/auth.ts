@@ -12,7 +12,12 @@ export const useAuthStore = defineStore('auth', {
         user: {
             name: ''
         }
-    })
+    }),
 
+    actions: {
+        setCookie( cookie : string ) {
+            this.cookie = cookie
+        }
+    }
     
 })
