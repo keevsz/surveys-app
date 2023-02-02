@@ -1,7 +1,6 @@
 <script lang="ts" setup>
     import Navbar from '../components/Navbar.vue'
     import Sidebar from '../components/Sidebar.vue'
-    import Home from '../views/Home.vue'
 </script>
 
 <template>
@@ -9,7 +8,7 @@
         <!-- sidebar -->
         <Sidebar />
 
-        <div class="col-span-10">
+        <div class="col-span-12 lg:col-span-10">
             <!-- navbar -->
             <Navbar />
         
