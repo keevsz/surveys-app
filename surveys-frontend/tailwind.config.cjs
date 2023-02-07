@@ -6,7 +6,14 @@ module.exports = {
     './src/**/**/*.vue'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'cf-1': '#162447',
+        'cf-2': '#1F4068',
+        'cf-3': '#1B1B2F',
+        'cf-4': '#E43F5A'
+      }
+    },
   },
   plugins: [],
 }
