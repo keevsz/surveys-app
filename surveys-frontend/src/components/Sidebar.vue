@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     import { ref, Ref, onMounted } from 'vue'
-    import { useSurvey } from '../composables/useSurvey'
+    import { useSurvey } from '../modules/survey/composables/useSurvey'
 
     interface Items {
         link: string,
@@ -33,13 +33,18 @@
         },
         {
             link: 'survey-uno',
-            name: 'Page 2',
-            icon: 'fa-solid fa-gauge-high'
+            name: 'Surveys',
+            icon: 'fa-solid fa-square-poll-vertical'
         },
         {
             link: 'survey-dos',
             name: 'Page 3',
             icon: 'fa-solid fa-gauge-high'
+        },
+        {
+            link: 'user-profile',
+            name: 'User Profile',
+            icon: 'fa-solid fa-user'
         },
     ])
 
@@ -59,7 +64,7 @@
             <router-link v-for="(link, index) in links" :key="index"
                 :to="{ name: link.link }"
                 class="h-12 flex items-center pl-2 duration-150 hover:bg-cf-1">
-                <font-awesome-icon :icon="link.icon" class="mr-1" />
+                <font-awesome-icon :icon="link.icon" class="mr-2" />
                 {{ link.name }}
             </router-link>
         </div>

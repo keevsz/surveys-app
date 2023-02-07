@@ -1,9 +1,10 @@
 <script lang="ts" setup>
     import { ref, Ref } from 'vue'
     // import { useSurveyStore } from '../../../store/survey'
-    import { useSurvey } from '../composables/useSurvey'
+    import { useSurvey } from '../modules/survey/composables/useSurvey'
 
     interface List {
+        link: string,
         name: string,
         icon: string
     }
@@ -12,15 +13,18 @@
 
     const options : Ref<List[]> = ref([
         {
-            name: 'profile',
+            link: 'user-profile',
+            name: 'Profile',
             icon: 'fa-solid fa-user'
         },
         {
-            name: 'settings',
+            link: '',
+            name: 'Settings',
             icon: 'fa-solid fa-gear'
         },
         {
-            name: 'logout',
+            link: '',
+            name: 'Logout',
             icon: 'fa-solid fa-arrow-right-from-bracket'
         }
     ])
@@ -55,9 +59,9 @@
         <div class="absolute right-5 top-14 border bg-white text-gray-500 w-32 rounded-sm text-center divide-y divide-solid" v-show="toggle">
             
             <router-link v-for="(option, index) in options" :key="index"
-             to="/"
+             :to="{ name: option.link }"
              class="h-10 flex items-center justify-center text-xs hover:bg-gray-100 duration-300">
-                {{ option.name.toUpperCase() }}
+                {{ option.name }}
                 <font-awesome-icon :icon="option.icon" class="text-gray-600 ml-1" />
             </router-link>
         </div>

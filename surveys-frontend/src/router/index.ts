@@ -19,6 +19,7 @@ const routes = [
         ...authRouter
     },
 
+    // survey
     {
         path: '/home',
         ...surveyRouter,
@@ -38,6 +39,13 @@ const routes = [
                 next({ name: 'login' })
             }    
         }
+    },
+
+    // user
+    {
+        path: '/user',
+        name: 'user-profile',
+        component: () => import('../modules/user/views/Profile.vue')
     }
 ]
 

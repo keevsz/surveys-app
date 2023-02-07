@@ -7,9 +7,10 @@ import { faCaretDown,
         faGear,
         faArrowRightFromBracket,
         faGaugeHigh,
-        faXmark
+        faXmark,
+        faSquarePollVertical
      } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faCaretDown, faBars, faUser, faArrowRightFromBracket, faGear, faGaugeHigh, faXmark)
+library.add(faCaretDown, faBars, faUser, faArrowRightFromBracket, faGear, faGaugeHigh, faXmark, faSquarePollVertical)
 
 export default FontAwesomeIcon
