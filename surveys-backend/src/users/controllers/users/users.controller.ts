@@ -12,11 +12,14 @@ import {
   HttpException,
   HttpStatus,
   UseGuards,
+  Req,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthenticatedGuard } from 'src/auth/guards/auth/LocalGuard.guard';
 import { encodePassword } from 'src/services/bcrypt';
 import { CreateUserDTO } from 'src/users/dto/CreateUser.dto';
 import { UpdateUserDTO } from 'src/users/dto/UpdateUser.dto';
+import { User } from 'src/users/entities/User.entity';
 import { UsersService } from 'src/users/services/users/users.service';
 
 @Controller('users')
@@ -56,16 +59,24 @@ export class UsersController {
   async updateUser(
     @Param('id', ParseIntPipe) id: number,
     @Body() user: UpdateUserDTO,
+    @Req() req: Request,
   ) {
     const userFound = await this.userService.getUser(id);
     let hashedPassword;
+
+    const authenticatedUser = req.user as User;
+
+    if (authenticatedUser.id !== id)
+      throw new HttpException('Invalid action', HttpStatus.FORBIDDEN);
 
     if (!userFound)
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     if (user.password) hashedPassword = encodePassword(user.password);
 
     if (user.username && user.username !== userFound.username) {
-      const usernameExists = this.userService.getUserByUsername(user.username);
+      const usernameExists = await this.userService.getUserByUsername(
+        user.username,
+      );
       if (usernameExists)
         throw new HttpException('Invalid username', HttpStatus.CONFLICT);
     }
