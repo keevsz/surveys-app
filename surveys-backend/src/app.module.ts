@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { SurveysModule } from './surveys/surveys.module';
 import { ConfigModule } from '@nestjs/config';
 import { QuestionsModule } from './questions/questions.module';
+import { AlternativesModule } from './alternatives/alternatives.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { QuestionsModule } from './questions/questions.module';
     SurveysModule,
     QuestionsModule,
     UsersModule,
+    AlternativesModule,
   ],
   controllers: [],
   providers: [],
