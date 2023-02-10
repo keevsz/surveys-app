@@ -11,8 +11,8 @@ import { SerializedUser } from 'src/types/SerializeUser';
 export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login() {
-    return 'Successfully logged in';
+  async login(@Req() req: Request) {
+    return plainToClass(SerializedUser, req.user);
   }
 
   @UseGuards(AuthenticatedGuard)

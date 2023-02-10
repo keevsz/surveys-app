@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { SurveysModule } from './surveys/surveys.module';
 import { ConfigModule } from '@nestjs/config';
+import { QuestionsModule } from './questions/questions.module';
 
 @Module({
   imports: [
@@ -11,7 +12,6 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: 'development.env',
       isGlobal: true,
     }),
-    UsersModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
@@ -24,6 +24,8 @@ import { ConfigModule } from '@nestjs/config';
     }),
     AuthModule,
     SurveysModule,
+    QuestionsModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

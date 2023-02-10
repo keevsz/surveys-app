@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSurveyDTO } from 'src/surveys/dto/CreateSurvey.dto';
 import { Survey as SurveyEntity } from 'src/surveys/entities/Survey.entity';
 import { User } from 'src/users/entities/User.entity';
-import { UsersService } from 'src/users/services/users/users.service';
+import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -18,12 +18,13 @@ export class SurveysService {
     return this.surveyRepository.find();
   }
 
-  createSurvey(survey: CreateSurveyDTO, user: User) {
-    const userFound = this.usersService.getUser(user.id);
+  createSurvey(survey: any, authenticatedUser: User) {
+    survey = {
+      ...survey,
+      author_id: authenticatedUser.id,
+    };
 
-    if (!userFound)
-      return new HttpException('User not found', HttpStatus.NOT_FOUND);
-
+    this.usersService.getUser(authenticatedUser.id.toString());
     const newSurvey = this.surveyRepository.create(survey);
     return this.surveyRepository.save(newSurvey);
   }

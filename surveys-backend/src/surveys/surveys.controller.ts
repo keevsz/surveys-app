@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { CreateSurveyDTO } from 'src/surveys/dto/CreateSurvey.dto';
-import { SurveysService } from 'src/surveys/services/surveys/surveys.service';
+import { SurveysService } from 'src/surveys/surveys.service';
 import { User } from 'src/users/entities/User.entity';
 
 @Controller('surveys')
@@ -32,9 +32,10 @@ export class SurveysController {
   }
 
   @Post()
-  @UsePipes(ValidationPipe)
-  createSurvey(@Body() survey: CreateSurveyDTO, @Req() req: Request) {
-    const user = req.user as User;
-    return this.surveyService.createSurvey(survey, user);
+  createSurvey(@Body() survey: any, @Req() req: Request) {
+    //falta validar auth
+    const authenticatedUser = req.user as User;
+
+    return this.surveyService.createSurvey(survey, authenticatedUser);
   }
 }

@@ -5,12 +5,23 @@ import * as passport from 'passport';
 import * as session from 'express-session';
 import { DataSource } from 'typeorm';
 import { Session } from './auth/entities/Auth.entity';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: { origin: 'http://localhost:5173', credentials: true },
   });
   const sessionRepository = app.get(DataSource).getRepository(Session);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
   app.setGlobalPrefix('api');
   app.use(
     session({
