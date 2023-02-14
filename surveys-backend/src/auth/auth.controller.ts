@@ -1,23 +1,20 @@
-import { Controller, Post, Req, Get, UseGuards } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
-import { Request } from 'express';
-import {
-  AuthenticatedGuard,
-  LocalAuthGuard,
-} from 'src/auth/guards/auth/LocalGuard.guard';
-import { SerializedUser } from 'src/types/SerializeUser';
+import { Controller, Post, Get, UseGuards } from '@nestjs/common';
+
+import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { User } from 'src/users/entities/User.entity';
+import { LocalAuthGuard, AuthenticatedGuard } from './guards/local-guard.guard';
 
 @Controller('auth')
 export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Req() req: Request) {
-    return plainToClass(SerializedUser, req.user);
+  async login(@GetUser() user: User) {
+    return user;
   }
 
   @UseGuards(AuthenticatedGuard)
   @Get('status')
-  async getAuthStatus(@Req() req: Request) {
-    return plainToClass(SerializedUser, req.user);
+  async getAuthStatus(@GetUser() user: User) {
+    return user;
   }
 }

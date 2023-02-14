@@ -6,20 +6,18 @@ import { SurveysModule } from './surveys/surveys.module';
 import { ConfigModule } from '@nestjs/config';
 import { QuestionsModule } from './questions/questions.module';
 import { AlternativesModule } from './alternatives/alternatives.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: 'development.env',
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
+      port: +process.env.DB_PORT,
+      database: process.env.DB_NAME,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
@@ -28,8 +26,7 @@ import { AlternativesModule } from './alternatives/alternatives.module';
     QuestionsModule,
     UsersModule,
     AlternativesModule,
+    CommonModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
