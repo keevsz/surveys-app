@@ -1,4 +1,4 @@
-import { Survey } from 'src/surveys/entities/Survey.entity';
+import { Survey } from 'src/surveys/entities/survey.entity';
 import {
   AfterInsert,
   BeforeInsert,

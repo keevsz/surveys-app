@@ -19,6 +19,7 @@ export class SurveysController {
     @Body() createSurveyDto: CreateSurveyDto,
     @GetUser() user: User,
   ) {
+    console.log(createSurveyDto);
     return this.surveyService.create(createSurveyDto, user);
   }
 }

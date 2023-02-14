@@ -1,4 +1,4 @@
-import { Survey } from 'src/surveys/entities/Survey.entity';
+import { Survey } from 'src/surveys/entities/survey.entity';
 import { PrimaryGeneratedColumn, ManyToOne, Column, Entity, OneToMany } from 'typeorm';
 import { Alternative } from '../../alternatives/entities/alternative.entity';
 
@@ -21,9 +21,9 @@ export class Question {
   })
   survey: Survey;
 
-  // @OneToMany(() => Alternative, (alternative) => alternative.question, {
-  //   cascade: true,
-  //   eager: true,
-  // })
-  // alternatives?: Alternative[];
+  @OneToMany(() => Alternative, (alternative) => alternative.question, {
+    cascade: true,
+    eager: true,
+  })
+  alternatives?: Alternative[];
 }

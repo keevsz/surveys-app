@@ -1,5 +1,7 @@
-import { PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Question } from '../../questions/entities/Question.entity';
+import { PrimaryGeneratedColumn, Column, ManyToOne, Entity } from 'typeorm';
+import { Question } from '../../questions/entities/question.entity';
+
+@Entity('alternatives')
 export class Alternative {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -10,8 +12,8 @@ export class Alternative {
   @Column('int', { nullable: true, default: 0 })
   value: number;
 
-//   @ManyToOne(() => Question, (question) => question.alternatives, {
-//     onDelete: 'CASCADE',
-//   })
-//   question: Question;
+  @ManyToOne(() => Question, (question) => question.alternatives, {
+    onDelete: 'CASCADE',
+  })
+  question: Question;
 }
