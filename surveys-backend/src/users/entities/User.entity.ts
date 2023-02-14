@@ -35,7 +35,7 @@ export class User {
   @Column('bool', { default: true })
   isActive: boolean;
 
-  @OneToMany(() => Survey, (survey) => survey.author)
+  @OneToMany(() => Survey, (survey) => survey.user)
   surveys: Survey[];
 
   @BeforeInsert()

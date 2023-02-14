@@ -1,37 +1,35 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateSurveyDTO } from 'src/surveys/dto/CreateSurvey.dto';
-import { Survey as SurveyEntity } from 'src/surveys/entities/Survey.entity';
+import { Survey } from 'src/surveys/entities/Survey.entity';
 import { User } from 'src/users/entities/User.entity';
-import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
+import { CreateSurveyDto } from 'src/surveys/dto/CreateSurvey.dto';
+import { Question } from 'src/questions/entities/Question.entity';
 
 @Injectable()
 export class SurveysService {
   constructor(
-    @InjectRepository(SurveyEntity)
-    private readonly surveyRepository: Repository<SurveyEntity>,
-    private usersService: UsersService,
+    @InjectRepository(Survey)
+    private readonly surveyRepository: Repository<Survey>,
+    @InjectRepository(Question)
+    private readonly questionRepository: Repository<Question>,
   ) {}
 
-  getSurveys() {
-    return this.surveyRepository.find();
+  async create(createSurveyDto: CreateSurveyDto, user: User) {
+    try {
+      const { questions = [], ...surveyDetails } = createSurveyDto;
+      const survey = this.surveyRepository.create({
+        ...surveyDetails,
+        questions: questions.map((question) =>
+          this.questionRepository.create(question),
+        ),
+        user,
+      });
+      const surveyDB = await this.surveyRepository.save(survey);
+
+      return surveyDB;
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-  createSurvey(survey: any, authenticatedUser: User) {
-    survey = {
-      ...survey,
-      author_id: authenticatedUser.id,
-    };
-
-    this.usersService.getUser(authenticatedUser.id.toString());
-    const newSurvey = this.surveyRepository.create(survey);
-    return this.surveyRepository.save(newSurvey);
-  }
-
-  getSurveyById(survey_id: number) {
-    return this.surveyRepository.findOne({ where: { survey_id } });
-  }
-
-  updateSurvey() {}
 }

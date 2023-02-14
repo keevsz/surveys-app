@@ -1,14 +1,22 @@
-import { IsNotEmpty } from 'class-validator';
+  import { Type } from 'class-transformer';
+  import { IsArray, IsDate, IsNotEmpty, ValidateNested } from 'class-validator';
+  import { CreateQuestionDto } from '../../questions/dto/create-question.dto';
+import { Question } from '../../questions/entities/Question.entity';
 
-export class CreateSurveyDTO {
-  @IsNotEmpty()
-  title: string;
+  export class CreateSurveyDto {
+    @IsNotEmpty()
+    title: string;
 
-  @IsNotEmpty()
-  start_date: Date;
+    @IsNotEmpty()
+    @IsDate()
+    start_date: Date;
 
-  @IsNotEmpty()
-  end_date: Date;
+    @IsNotEmpty()
+    @IsDate()
+    end_date: Date;
 
-  state: boolean;
-}
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => CreateQuestionDto)
+    questions: Question[];
+  }

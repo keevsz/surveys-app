@@ -1,23 +1,29 @@
 import { Survey } from 'src/surveys/entities/Survey.entity';
-import { PrimaryGeneratedColumn, ManyToOne, Column, Entity, JoinColumn } from 'typeorm';
+import { PrimaryGeneratedColumn, ManyToOne, Column, Entity, OneToMany } from 'typeorm';
+import { Alternative } from '../../alternatives/entities/alternative.entity';
 
 @Entity({ name: 'questions' })
 export class Question {
-  @PrimaryGeneratedColumn()
-  question_id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({ nullable: false })
-  item: string;
+  @Column('text')
+  item?: string;
 
-  @Column({ nullable: false })
-  obligatorie: boolean;
+  @Column('boolean', { default: false })
+  required?: boolean;
 
-  @Column({ nullable: false })
-  survey_id: number;
+  @Column({ default: false })
+  valuable?: boolean;
 
-  @ManyToOne(() => Survey, (survey) => survey.questions)
+  @ManyToOne(() => Survey, (survey) => survey.questions, {
+    onDelete: 'CASCADE',
+  })
   survey: Survey;
 
-  @JoinColumn({ name: 'survey_id' })
-  encuesta: Survey;
+  // @OneToMany(() => Alternative, (alternative) => alternative.question, {
+  //   cascade: true,
+  //   eager: true,
+  // })
+  // alternatives?: Alternative[];
 }
