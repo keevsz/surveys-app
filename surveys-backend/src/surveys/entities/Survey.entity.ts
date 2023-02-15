@@ -1,4 +1,4 @@
-import { Question } from 'src/questions/entities/Question.entity';
+import { Question } from 'src/questions/entities/question.entity';
 import { User } from 'src/users/entities/User.entity';
 import {
   Column,
@@ -10,27 +10,27 @@ import {
 
 @Entity({ name: 'surveys' })
 export class Survey {
-  @PrimaryGeneratedColumn()
-  survey_id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: false })
   title: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   start_date: Date;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   end_date: Date;
 
   @Column({ default: true })
   state: boolean;
 
-  @Column({ nullable: false })
-  author_id: number;
-
   @ManyToOne(() => User, (user) => user.surveys)
-  author: User;
+  user: User;
 
-  @OneToMany(() => Question, (question) => question.survey)
-  questions: Question[];
+  @OneToMany(() => Question, (question) => question.survey, {
+    cascade: true,
+    eager: true,
+  })
+  questions?: Question[];
 }

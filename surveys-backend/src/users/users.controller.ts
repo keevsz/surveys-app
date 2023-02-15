@@ -5,20 +5,16 @@ import {
   Inject,
   Post,
   Param,
-  ParseIntPipe,
   Put,
-  HttpException,
-  HttpStatus,
   UseGuards,
-  Req,
 } from '@nestjs/common';
-import { Request } from 'express';
-import { AuthenticatedGuard } from 'src/auth/guards/auth/LocalGuard.guard';
-import { encodePassword } from 'src/services/bcrypt';
+import { ParseUUIDPipe } from '@nestjs/common/pipes';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { CreateUserDTO } from 'src/users/dto/CreateUser.dto';
 import { UpdateUserDTO } from 'src/users/dto/UpdateUser.dto';
 import { User } from 'src/users/entities/User.entity';
 import { UsersService } from 'src/users/users.service';
+import { AuthenticatedGuard } from '../auth/guards/local-guard.guard';
 
 @Controller('users')
 export class UsersController {
@@ -43,14 +39,13 @@ export class UsersController {
     return this.userService.getUser(term);
   }
 
-  @UseGuards(AuthenticatedGuard)
   @Put(':id')
+  @UseGuards(AuthenticatedGuard)
   async updateUser(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updatedUserDto: UpdateUserDTO,
-    @Req() req: Request,
+    @GetUser() user: User,
   ) {
-    const authenticatedUser = req.user as User;
-    return this.userService.updateUser(id, updatedUserDto, authenticatedUser);
+    return this.userService.updateUser(id, updatedUserDto, user);
   }
 }
