@@ -94,7 +94,8 @@ export class SurveysService {
 
   async update(surveyId: string, updateSurveyDto: UpdateSurveyDto, user: User) {
     const foundSurvey = await this.getOne(surveyId);
-    if (foundSurvey.user.id !== user.id) //TODO: verificar update del survey propio
+    if (foundSurvey.user.id !== user.id)
+      //TODO: verificar update del survey propio
       throw new BadRequestException(`User not valid to update this survey`);
 
     const { questions, ...surveyDetails } = updateSurveyDto;
@@ -140,7 +141,8 @@ export class SurveysService {
   }
 
   async delete(surveyId: string) {
-    return this.surveyRepository.softDelete(surveyId);
+    const survey = await this.getOne(surveyId);
+    return this.surveyRepository.remove(survey);
   }
 
   private handleDBExceptions(error: any) {
