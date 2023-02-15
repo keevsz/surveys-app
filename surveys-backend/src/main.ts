@@ -35,7 +35,7 @@ async function bootstrap() {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: false,
         secure: false,
-        expires: new Date(Date.now() + 60 * 60 * 1000),
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
         sameSite: 'lax',
       },
       store: new TypeormStore().connect(sessionRepository),

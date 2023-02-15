@@ -21,5 +21,5 @@ export class CreateSurveyDto {
   @Type(() => CreateQuestionDto)
   questions: Question[];
 
-  alternatives: Alternative[];
+  // alternatives: Alternative[];
 }
