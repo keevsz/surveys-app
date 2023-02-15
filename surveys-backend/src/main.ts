@@ -32,10 +32,10 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 15 * 86400000,
         httpOnly: false,
         secure: false,
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 15 * 86400000),
         sameSite: 'lax',
       },
       store: new TypeormStore().connect(sessionRepository),

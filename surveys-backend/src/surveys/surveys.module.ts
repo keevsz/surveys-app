@@ -14,5 +14,6 @@ import { Alternative } from '../alternatives/entities/alternative.entity';
   ],
   controllers: [SurveysController],
   providers: [SurveysService],
+  exports: [SurveysService, TypeOrmModule],
 })
 export class SurveysModule {}

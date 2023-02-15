@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { QuestionsModule } from './questions/questions.module';
 import { AlternativesModule } from './alternatives/alternatives.module';
 import { CommonModule } from './common/common.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CommonModule } from './common/common.module';
     UsersModule,
     AlternativesModule,
     CommonModule,
+    SeedModule,
   ],
 })
 export class AppModule {}

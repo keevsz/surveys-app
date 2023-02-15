@@ -5,7 +5,7 @@ import { Alternative } from '../../alternatives/entities/alternative.entity';
 @Entity({ name: 'questions' })
 export class Question {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Column('text')
   item?: string;
@@ -19,11 +19,11 @@ export class Question {
   @ManyToOne(() => Survey, (survey) => survey.questions, {
     onDelete: 'CASCADE',
   })
-  survey: Survey;
+  survey?: Survey;
 
   @OneToMany(() => Alternative, (alternative) => alternative.question, {
     cascade: true,
     eager: true,
   })
-  alternatives?: Alternative[];
+  alternatives: Alternative[];
 }

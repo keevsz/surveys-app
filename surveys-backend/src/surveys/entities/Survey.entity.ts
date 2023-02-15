@@ -17,10 +17,10 @@ export class Survey {
   title: string;
 
   @Column({ nullable: true })
-  start_date: Date;
+  start_date?: string;
 
   @Column({ nullable: true })
-  end_date: Date;
+  end_date?: string;
 
   @Column({ default: true })
   state: boolean;

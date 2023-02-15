@@ -4,7 +4,7 @@ import { Question } from '../../questions/entities/question.entity';
 @Entity('alternatives')
 export class Alternative {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Column('text', { nullable: false })
   description: string;
@@ -15,5 +15,5 @@ export class Alternative {
   @ManyToOne(() => Question, (question) => question.alternatives, {
     onDelete: 'CASCADE',
   })
-  question: Question;
+  question?: Question;
 }

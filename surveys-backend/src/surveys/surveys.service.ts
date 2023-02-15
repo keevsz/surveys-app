@@ -153,4 +153,13 @@ export class SurveysService {
       'Unexpected error, check server logs',
     );
   }
+
+  async deleteAllSurveys() {
+    const query = this.surveyRepository.createQueryBuilder('survey');
+    try {
+      return await query.delete().where({}).execute();
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+  }
 }
