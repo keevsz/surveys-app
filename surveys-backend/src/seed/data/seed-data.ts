@@ -6,12 +6,13 @@ interface SeedData {
 }
 
 interface SeedUser {
-  email: string;
+  email?: string;
   username: string;
   password: string;
-  name: string;
-  lastname: string;
-  age: number;
+  name?: string;
+  lastname?: string;
+  age?: number;
+  pic?: string;
 }
 
 export const initialData: SeedData = {
@@ -23,6 +24,7 @@ export const initialData: SeedData = {
       name: 'Kevin',
       lastname: 'Vilca',
       age: 21,
+      pic: 'https://cdn-icons-png.flaticon.com/512/6073/6073873.png',
     },
     {
       username: 'same',
@@ -31,6 +33,8 @@ export const initialData: SeedData = {
       name: 'Alex',
       lastname: 'Silva',
       age: 21,
+      pic: 'https://cdn-icons-png.flaticon.com/512/599/599305.png',
+
     },
   ],
   surveys: [

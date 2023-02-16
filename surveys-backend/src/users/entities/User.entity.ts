@@ -29,6 +29,10 @@ export class User {
   @Column('text', { nullable: true, unique: true })
   email?: string;
 
+  @Column('text', { nullable: true})
+  pic?: string;
+
+
   @Column('int', { nullable: true })
   age?: number;
 

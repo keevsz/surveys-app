@@ -42,4 +42,8 @@ export class CreateUserDTO {
   @IsPositive()
   @IsOptional()
   age?: number;
+
+  @IsString()
+  @IsOptional()
+  pic?: string;
 }
