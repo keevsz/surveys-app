@@ -11,7 +11,7 @@ import {
 export class Session implements ISession {
   @Index()
   @Column('bigint')
-  public expiredAt = Date.now();
+  public expiredAt = Date.now() + 15 * 86400000;
 
   @PrimaryColumn('varchar', { length: 255 })
   public id = '';

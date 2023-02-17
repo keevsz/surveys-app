@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Survey } from 'src/surveys/entities/survey.entity';
-import { User } from 'src/users/entities/User.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Repository, DataSource } from 'typeorm';
 import { CreateSurveyDto } from 'src/surveys/dto/create-survey.dto';
 import { Question } from 'src/questions/entities/question.entity';
@@ -50,7 +50,7 @@ export class SurveysService {
 
       return surveyDB;
     } catch (error) {
-      console.log(error);
+      this.handleDBExceptions(error);
     }
   }
 
@@ -83,7 +83,7 @@ export class SurveysService {
   async getOne(surveyId: string) {
     const survey = await this.surveyRepository.findOne({
       where: { id: surveyId },
-      relations: { user: true },
+      relations: { user: true, answers: true },
     });
 
     if (!survey)
@@ -152,5 +152,14 @@ export class SurveysService {
     throw new InternalServerErrorException(
       'Unexpected error, check server logs',
     );
+  }
+
+  async deleteAllSurveys() {
+    const query = this.surveyRepository.createQueryBuilder('survey');
+    try {
+      return await query.delete().where({}).execute();
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
 }

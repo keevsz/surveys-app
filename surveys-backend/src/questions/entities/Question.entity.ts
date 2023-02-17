@@ -1,11 +1,18 @@
+import { Answer } from 'src/answers/entities/answer.entity';
 import { Survey } from 'src/surveys/entities/survey.entity';
-import { PrimaryGeneratedColumn, ManyToOne, Column, Entity, OneToMany } from 'typeorm';
 import { Alternative } from '../../alternatives/entities/alternative.entity';
+import {
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Column,
+  Entity,
+  OneToMany,
+} from 'typeorm';
 
 @Entity({ name: 'questions' })
 export class Question {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Column('text')
   item?: string;
@@ -19,11 +26,17 @@ export class Question {
   @ManyToOne(() => Survey, (survey) => survey.questions, {
     onDelete: 'CASCADE',
   })
-  survey: Survey;
+  survey?: Survey;
 
   @OneToMany(() => Alternative, (alternative) => alternative.question, {
     cascade: true,
     eager: true,
   })
   alternatives?: Alternative[];
+
+  @OneToMany(() => Answer, (answer) => answer.question, {
+    cascade: true,
+    eager: true,
+  })
+  answers?: Answer[];
 }

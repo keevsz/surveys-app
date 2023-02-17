@@ -1,5 +1,6 @@
 import { Question } from 'src/questions/entities/question.entity';
-import { User } from 'src/users/entities/User.entity';
+import { User } from 'src/users/entities/user.entity';
+import { Answer } from '../../answers/entities/answer.entity';
 import {
   Column,
   Entity,
@@ -17,10 +18,10 @@ export class Survey {
   title: string;
 
   @Column({ nullable: true })
-  start_date: Date;
+  start_date?: string;
 
   @Column({ nullable: true })
-  end_date: Date;
+  end_date?: string;
 
   @Column({ default: true })
   state: boolean;
@@ -33,4 +34,10 @@ export class Survey {
     eager: true,
   })
   questions?: Question[];
+
+  @OneToMany(() => Answer, (answer) => answer.survey, {
+    cascade: true,
+    eager: true,
+  })
+  answers?: Answer[];
 }
