@@ -1,7 +1,14 @@
-import { PrimaryGeneratedColumn, Column, ManyToOne, Entity } from 'typeorm';
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  Entity,
+  OneToMany,
+} from 'typeorm';
 import { Question } from '../../questions/entities/question.entity';
+import { Answer } from '../../answers/entities/answer.entity';
 
-@Entity('alternatives')
+@Entity({ name: 'alternatives' })
 export class Alternative {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
@@ -16,4 +23,7 @@ export class Alternative {
     onDelete: 'CASCADE',
   })
   question?: Question;
+
+  @OneToMany(() => Answer, (answer) => answer.alternative)
+  answers?: Answer[];
 }

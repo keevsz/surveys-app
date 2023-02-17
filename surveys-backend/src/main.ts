@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import * as passport from 'passport';
 import * as session from 'express-session';
 import { DataSource } from 'typeorm';
-import { Session } from './auth/entities/Auth.entity';
+import { Session } from './auth/entities/auth.entity';
 import { ValidationPipe } from '@nestjs/common';
 import { Logger } from '@nestjs/common/services';
 

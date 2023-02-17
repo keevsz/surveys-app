@@ -1,6 +1,13 @@
+import { Answer } from 'src/answers/entities/answer.entity';
 import { Survey } from 'src/surveys/entities/survey.entity';
-import { PrimaryGeneratedColumn, ManyToOne, Column, Entity, OneToMany } from 'typeorm';
 import { Alternative } from '../../alternatives/entities/alternative.entity';
+import {
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Column,
+  Entity,
+  OneToMany,
+} from 'typeorm';
 
 @Entity({ name: 'questions' })
 export class Question {
@@ -25,5 +32,11 @@ export class Question {
     cascade: true,
     eager: true,
   })
-  alternatives: Alternative[];
+  alternatives?: Alternative[];
+
+  @OneToMany(() => Answer, (answer) => answer.question, {
+    cascade: true,
+    eager: true,
+  })
+  answers?: Answer[];
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SurveysService } from 'src/surveys/surveys.service';
-import { User } from 'src/users/entities/User.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { initialData } from './data/seed-data';
 import * as bcrypt from 'bcrypt';

@@ -1,6 +1,6 @@
 import { Controller, Post, Get, UseGuards, Req } from '@nestjs/common';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
-import { User } from 'src/users/entities/User.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Logout } from './decorators/logout.decorator';
 import { LocalAuthGuard, AuthenticatedGuard } from './guards/local-guard.guard';
 

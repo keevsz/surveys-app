@@ -1,4 +1,5 @@
 import { Survey } from 'src/surveys/entities/survey.entity';
+import { Answer } from '../../answers/entities/answer.entity';
 import {
   AfterInsert,
   BeforeInsert,
@@ -29,9 +30,8 @@ export class User {
   @Column('text', { nullable: true, unique: true })
   email?: string;
 
-  @Column('text', { nullable: true})
+  @Column('text', { nullable: true })
   pic?: string;
-
 
   @Column('int', { nullable: true })
   age?: number;
@@ -41,6 +41,9 @@ export class User {
 
   @OneToMany(() => Survey, (survey) => survey.user)
   surveys: Survey[];
+
+  @OneToMany(() => Answer, (answer) => answer.user)
+  answers: Answer[];
 
   @BeforeInsert()
   checkFieldBeforeInsert() {

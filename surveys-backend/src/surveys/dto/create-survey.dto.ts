@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsDate, IsNotEmpty, ValidateNested, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, ValidateNested, IsOptional, IsString } from 'class-validator';
 import { CreateQuestionDto } from '../../questions/dto/create-question.dto';
 import { Question } from '../../questions/entities/question.entity';
 

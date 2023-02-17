@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AlternativesService } from './alternatives.service';
-import { AlternativesController } from './alternatives.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Alternative } from './entities/alternative.entity';
-import { QuestionsModule } from 'src/questions/questions.module';
-
+import { AlternativesController } from './alternatives.controller';
+import { AlternativesService } from './alternatives.service';
 @Module({
-  imports: [TypeOrmModule.forFeature([Alternative]), QuestionsModule],
+  imports: [TypeOrmModule.forFeature([Alternative])],
   controllers: [AlternativesController],
   providers: [AlternativesService],
 })

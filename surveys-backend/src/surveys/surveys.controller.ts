@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CreateSurveyDto } from 'src/surveys/dto/create-survey.dto';
 import { SurveysService } from 'src/surveys/surveys.service';
-import { User } from 'src/users/entities/User.entity';
+import { User } from 'src/users/entities/user.entity';
 import { UseGuards, Delete } from '@nestjs/common';
 import { AuthenticatedGuard } from '../auth/guards/local-guard.guard';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
