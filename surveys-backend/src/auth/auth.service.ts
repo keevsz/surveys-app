@@ -12,7 +12,8 @@ export class AuthService {
     const user = await this.userService.getFullUser(username);
     if (!user) return null;
 
-    const isCorrectPassword = bcrypt.compareSync(password, user.password); // error
+    const isCorrectPassword = bcrypt.compareSync(password, user.password);
+    delete user.password
     return isCorrectPassword ? user : null;
   }
 }

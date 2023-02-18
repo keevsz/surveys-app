@@ -83,7 +83,10 @@ export class SurveysService {
   async getOne(surveyId: string) {
     const survey = await this.surveyRepository.findOne({
       where: { id: surveyId },
-      relations: { user: true, answers: true },
+      relations: { user: true },
+      select: {
+        user: { id: true, username: true, pic: true },
+      },
     });
 
     if (!survey)
@@ -95,7 +98,6 @@ export class SurveysService {
   async update(surveyId: string, updateSurveyDto: UpdateSurveyDto, user: User) {
     const foundSurvey = await this.getOne(surveyId);
     if (foundSurvey.user.id !== user.id)
-      //TODO: verificar update del survey propio
       throw new BadRequestException(`User not valid to update this survey`);
 
     const { questions, ...surveyDetails } = updateSurveyDto;
@@ -113,7 +115,6 @@ export class SurveysService {
     await queryRunner.connect();
 
     await queryRunner.startTransaction();
-    //TODO eliminar todo lo que no reciba y registrar lo que sí
     try {
       //? SURVEY -> QUESTIONS -> ALTERNATIVES
       if (questions) {

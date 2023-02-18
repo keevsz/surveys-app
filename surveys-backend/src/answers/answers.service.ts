@@ -13,21 +13,25 @@ import { Logger } from '@nestjs/common/services';
 @Injectable()
 export class AnswersService {
   private logger = new Logger();
+
   constructor(
     @InjectRepository(Answer)
     private readonly answerRepository: Repository<Answer>,
   ) {}
+
   async create(createAnswerDto: CreateReqAnswerDto, user: User) {
     try {
       const { answers, surveyId } = createAnswerDto;
-      //! Verificación
       const savedAnswers = [];
+
       answers.map((answer) => {
+        const { alternativeId, questionId } = answer;
         savedAnswers.push(
           this.answerRepository.create({
             ...answer,
             surveyId,
             user,
+            userQuestionIndex: user.id + '-' + questionId + '-' + alternativeId,
           }),
         );
       });
@@ -40,6 +44,8 @@ export class AnswersService {
 
   private handleDBExceptions(error: any) {
     if (error.code === '23503') throw new BadRequestException(error.detail);
+    if (error.code === '23505')
+      throw new BadRequestException('The user has already answered this question');
 
     this.logger.error(error.detail);
     throw new InternalServerErrorException(

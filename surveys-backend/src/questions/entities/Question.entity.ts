@@ -36,7 +36,6 @@ export class Question {
 
   @OneToMany(() => Answer, (answer) => answer.question, {
     cascade: true,
-    eager: true,
   })
   answers?: Answer[];
 }

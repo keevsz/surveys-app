@@ -4,6 +4,7 @@ import {
   ManyToOne,
   Column,
   JoinColumn,
+  Index,
 } from 'typeorm';
 import { Alternative } from '../../alternatives/entities/alternative.entity';
 import { User } from '../../users/entities/user.entity';
@@ -14,6 +15,9 @@ import { Survey } from 'src/surveys/entities/survey.entity';
 export class Answer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column()
+  userId: string;
 
   @ManyToOne(() => User, (user) => user.answers)
   user: User;
@@ -35,4 +39,8 @@ export class Answer {
 
   @ManyToOne(() => Survey, (survey) => survey.answers)
   survey: Survey;
+
+  @Column()
+  @Index(['user', 'alternative, question'], { unique: true })
+  userQuestionIndex: string;
 }
