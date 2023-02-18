@@ -24,6 +24,9 @@ export class Alternative {
   })
   question?: Question;
 
-  @OneToMany(() => Answer, (answer) => answer.alternative)
+  @OneToMany(() => Answer, (answer) => answer.alternative, {
+    cascade: true,
+    eager: true,
+  })
   answers?: Answer[];
 }
