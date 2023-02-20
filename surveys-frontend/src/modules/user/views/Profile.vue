@@ -6,9 +6,9 @@
     import Photo from '../components/Photo.vue'
     import { useUser } from '../composables/useUser'
 
-    // import { useUserStore } from '../../../store/user'
+    import { useUserStore } from '../../../store/user'
 
-    // const user = useUserStore()
+    const user = useUserStore()
 
     onMounted(async() => {
         const { userCurrent } = useUser()
@@ -26,9 +26,9 @@
             <Navbar />
         
             <!-- CONTENT -->
-            <div class="p-7 grid grid-cols-12">
+            <div class="p-7 grid grid-cols-12 custom-height overflow-x-hidden">
                 <!-- <h1 class="text-lg mb-6 col-span-12">Edit Profile</h1> -->
-                <Detail />
+                <Detail v-if="user.username" />
                 <Photo />
             </div>
         </div>
@@ -36,3 +36,9 @@
         <!-- footer -->
     </div>
 </template>
+
+<style scoped>
+.custom-height {
+    height: calc(100vh - 64px);
+}
+</style>

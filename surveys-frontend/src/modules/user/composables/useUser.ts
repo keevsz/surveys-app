@@ -27,7 +27,6 @@ export const useUser = () => {
                 const {data} = await api.get('/auth/status', {
                     withCredentials: true
                 })
-                console.log(data)
                 user.setUser(data)
                 resolve(true)
                 
@@ -38,15 +37,18 @@ export const useUser = () => {
         })
     }
 
-    const update = (username: string) => {
+    const update = (username: string, password: string) => {
         return new Promise( async(resolve, reject) => {
             try {
-                console.log(`/users/${user.id}`);
-                
-                const res = await api.put(`/users/${user.id}`, {
-                    username
+
+                await api.put(`/users/${user.id}`, {
+                    username,
+                    password
                 }, { withCredentials: true })
-                console.log(res);
+
+                userCurrent()
+
+                resolve(true)
                 
             } catch (error) {
                 console.log(error)

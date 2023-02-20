@@ -14,7 +14,6 @@
 
     const username : Ref<string> = ref('')
     const password :  Ref<string> = ref('')
-    const cookie :  Ref<string> = ref('')
 
     const auth = useAuthStore()
     
@@ -33,7 +32,7 @@
             })
             
             router.push({ name: 'home-survey' })
-        } catch (error : any) {
+        } catch (error : any) {            
             Swal.fire({
                 position: 'top-end',
                 icon: 'error',
@@ -41,6 +40,7 @@
                 showConfirmButton: false,
                 timer: 1500
             })
+            
         }
     }
 

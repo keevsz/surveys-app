@@ -1,32 +1,25 @@
 <script lang="ts" setup>
-  import { onBeforeMount, onMounted } from 'vue';
-  import IndexAuth from './modules/auth/layouts/Index.vue'
-  import IndexMain from './modules/survey/layouts/Index.vue'
+  import { useSurveyStore } from './store/survey'
 
-  import { useAuthStore } from './store/auth'
-  import { useAuth } from './modules/auth/composables/useAuth'
+  const survey = useSurveyStore()
 
-  // const auth = useAuthStore()
-
-  // const { initAuth } = useAuth()
-
-  // onBeforeMount(async() => {
-  //   await initAuth()
+  document.onkeydown = (e) => {
+    if (e.key === 'Escape') {
+      if (survey.toggle) {
+        survey.setToggleInit()
+      }
+    }
+  }
+  
+  // document.addEventListener('click', () => {
+  //   console.log('click');
+  //   // survey.setToggle()
+    
   // })
-
-    // onMounted(async() => {
-    //   await initAuth()
-    //   console.log(auth.cookie);
-      
-    // })
-
 </script>
 
 <template>
   <div>
     <router-view />
-    <!-- <IndexAuth v-if="!auth.cookie" />
-
-    <IndexMain v-else /> -->
   </div>
 </template>

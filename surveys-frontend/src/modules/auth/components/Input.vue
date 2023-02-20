@@ -25,11 +25,10 @@
 
     const emit = defineEmits(['update:modelValue'])
 
-    const handleChange = ( event: any ) => {
-        emit('update:modelValue', event.target.value)     
+    const handleChange = ( event: any ) => {        
+        emit('update:modelValue', event.target.value)
     }
-
-
+    
 </script>
 
 <template>

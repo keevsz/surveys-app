@@ -45,7 +45,23 @@ const routes = [
     {
         path: '/user',
         name: 'user-profile',
-        component: () => import('../modules/user/views/Profile.vue')
+        component: () => import('../modules/user/views/Profile.vue'),
+        beforeEnter: async (to : any, from : any, next : any) => {
+            const auth = useAuthStore()
+            
+            const { initAuth } = useAuth()
+            try {
+                await initAuth()
+                if (auth.cookie) {
+                    next()
+                }
+                else {
+                    next({ name: 'login' })
+                }
+            } catch (error) {
+                next({ name: 'login' })
+            }    
+        }
     }
 ]
 

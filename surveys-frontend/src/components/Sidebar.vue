@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+    import { useRouter } from 'vue-router'
     import { ref, Ref, onMounted } from 'vue'
     import { useSurvey } from '../modules/survey/composables/useSurvey'
 
@@ -37,11 +38,6 @@
             icon: 'fa-solid fa-square-poll-vertical'
         },
         {
-            link: 'survey-dos',
-            name: 'Page 3',
-            icon: 'fa-solid fa-gauge-high'
-        },
-        {
             link: 'user-profile',
             name: 'User Profile',
             icon: 'fa-solid fa-user'
@@ -60,10 +56,10 @@
         <div class="flex justify-center items-center h-16">
             <h1>Logo</h1>
         </div>
-        <div class="flex flex-col ml-4 mr-4 mt-2">
+        <div class="ml-4 mr-4 mt-2 flex flex-col">
             <router-link v-for="(link, index) in links" :key="index"
-                :to="{ name: link.link }"
-                class="h-12 flex items-center pl-2 duration-150 hover:bg-cf-1">
+                class="h-12 items-center flex pl-2 duration-150 hover:bg-cf-1 hover:cursor-pointer"
+                :to="{ name: link.link }">
                 <font-awesome-icon :icon="link.icon" class="mr-2" />
                 {{ link.name }}
             </router-link>
