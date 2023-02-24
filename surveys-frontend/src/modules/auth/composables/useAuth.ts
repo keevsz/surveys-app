@@ -1,34 +1,22 @@
 import { useAuthStore } from '../../../store/auth'
 import api from '../../../api'
-import { useRouter } from 'vue-router'
-
-interface IResponse {
-    message: string,
-    code: number
-}
-
-interface IUser {
-    username: string,
-    password: string
-}
+import { IUser } from '../../user/interfaces'
 
 export const useAuth = () => {
 
     const auth = useAuthStore()
 
-    // const router = useRouter()
-
     const login = ( username : string, password : string ) => {
             return new Promise(async (resolve, reject) => {
                 try {
-                    const res : IResponse = await api.post('/auth/login', {
+                    await api.post('/auth/login', {
                         username,
                         password
                     }, { withCredentials: true })
                   
                     auth.setCookie(document.cookie)
 
-                    resolve(res)
+                    resolve(true)
     
                 } catch (error : any) {
                     let aux = error?.response.data
@@ -42,11 +30,15 @@ export const useAuth = () => {
     const register = ( user: IUser ) => {
         return new Promise( async (resolve, reject ) => {
             try {
-                const res = await api.post('/users', {
+                await api.post('/users', {
+                    name: user.name,
+                    lastname: user.lastname,
                     username: user.username,
-                    password: user.password
+                    email: user.email,
+                    password: user.password,
+                    pic: 'https://cdn-icons-png.flaticon.com/512/6073/6073873.png'
                 })
-                resolve(res)
+                resolve(true)
             } catch (error : any) {
                 console.log(error);
                 
@@ -57,10 +49,9 @@ export const useAuth = () => {
     }
 
     const initAuth = () => {
-        // var a store cookie
         return new Promise( async (resolve, reject) => {
             try {
-                const res = await api.get('/auth/status', {
+                await api.get('/auth/status', {
                     withCredentials:true
                 })
 

@@ -14,7 +14,12 @@ import { faCaretDown,
         faCamera,
         faPenToSquare,
         faCirclePlus,
-        faCircleMinus
+        faCircleMinus,
+        faTrash,
+        faChevronUp,
+        faChevronDown,
+        faList,
+        faPlus
      } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -31,7 +36,12 @@ library.add(
         faCamera,
         faPenToSquare,
         faCirclePlus,
-        faCircleMinus
+        faCircleMinus,
+        faTrash,
+        faChevronUp,
+        faChevronDown,
+        faList,
+        faPlus
         )
 
 export default FontAwesomeIcon

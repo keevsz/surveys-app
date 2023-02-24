@@ -1,14 +1,21 @@
 import { defineStore } from 'pinia'
 
 interface SurveyStore {
+    showModal: boolean,
     flag: boolean,
-    toggle: boolean
+    toggle: boolean,
+    title: string,
+    questions: any
+
 }
 
 export const useSurveyStore = defineStore('survey', {
     state: () : SurveyStore => ({
+        showModal: false,
         flag: false,
-        toggle: false
+        toggle: false,
+        title: '',
+        questions: []
     }),
 
     actions: {
@@ -24,11 +31,18 @@ export const useSurveyStore = defineStore('survey', {
             this.toggle = false
         },
         changeToggle() {
-            if (this.toggle) { /* visible */
+            if (this.toggle) {
                 this.toggle = false
-            } else { /* no visible */
+            } else {
                 this.toggle = true
             }
+        },
+        clearStore() {
+            this.showModal = false,
+            this.flag = false,
+            this.toggle = false,
+            this.title = '',
+            this.questions = []
         }
     }
 })

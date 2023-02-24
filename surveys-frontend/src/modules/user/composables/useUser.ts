@@ -1,25 +1,12 @@
 import api from "../../../api"
 import { useUserStore } from '../../../store/user'
-
-interface IUser {
-    // user: {
-        id: string,
-        // firstName: string,
-        // lastName: string,
-        // email: string,
-        username: string,
-        password: string,
-        photo: string,
-        // address: string,
-        // city: string,
-        // country: string,
-        // postal: string
-    // }
-}
+import { IUser } from "../interfaces"
+import { loadAbort } from "../utils/loadAbort"
+import axios from 'axios'
 
 export const useUser = () => {
 
-    const user = useUserStore()
+    const userStore = useUserStore()
     
     const userCurrent = () => {
         return new Promise( async (resolve, reject) => {
@@ -27,7 +14,7 @@ export const useUser = () => {
                 const {data} = await api.get('/auth/status', {
                     withCredentials: true
                 })
-                user.setUser(data)
+                userStore.setUser(data)
                 resolve(true)
                 
             } catch (error) {
@@ -37,13 +24,17 @@ export const useUser = () => {
         })
     }
 
-    const update = (username: string, password: string) => {
+    const update = (user : IUser) => {
         return new Promise( async(resolve, reject) => {
+            
             try {
-
-                await api.put(`/users/${user.id}`, {
-                    username,
-                    password
+                await api.put(`/users/${userStore.id}`, {
+                    name: user.name,
+                    lastname: user.lastname,
+                    username: user.username,
+                    email: user.email,
+                    password: user.password,
+                    age: user.age
                 }, { withCredentials: true })
 
                 userCurrent()
@@ -56,9 +47,49 @@ export const useUser = () => {
             }
         })
     }
+
+    const loadImage = (newImage : string) => {
+        return new Promise( async (resolve, reject) => {
+            try {
+                await api.put(`/users/${userStore.id}`, {
+                    pic: newImage
+                }, { withCredentials: true })
+
+                userCurrent()
+
+                resolve(true)
+            } catch (error) {
+                reject(false)
+            }
+        })
+    }
+
+    const updateImage = ( file : any ) => {
+        return new Promise( async (resolve, reject) => {
+            try {
+                const controller = loadAbort()
+                const data = new FormData()
+                data.append('file', file)
+                data.append('upload_preset', 'chat-app')
+                data.append('cloud_name', 'dalp4xrqs')
+                const res = await axios.post(
+                    'https://api.cloudinary.com/v1_1/dalp4xrqs/image/upload',
+                    data,
+                    {
+                        signal: controller.signal,
+                    }
+                )
+                resolve(res)
+            } catch (error) {
+                reject(false)
+            }
+        })  
+    }
     
     return {
         userCurrent,
-        update
+        update,
+        updateImage,
+        loadImage
     }
 }

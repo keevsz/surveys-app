@@ -1,32 +1,25 @@
 <script lang="ts" setup>
     import Input from '../components/Input.vue'
     import { Ref, ref } from 'vue'
-    import { useAuthStore } from '../../../store/auth'
     import { useAuth } from '../composables/useAuth'
     import { useRouter } from 'vue-router'
     import Swal from 'sweetalert2'
-
-    interface IResBad {
-        message: string
-    }
 
     const router = useRouter()
 
     const username : Ref<string> = ref('')
     const password :  Ref<string> = ref('')
-
-    const auth = useAuthStore()
     
     const signin = async () => {
         const { login } = useAuth()
 
         try {
-            const u : any = await login(username.value, password.value)
+            await login(username.value, password.value)
             
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `${u.data}`,
+                title: 'Login successful',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -40,7 +33,6 @@
                 showConfirmButton: false,
                 timer: 1500
             })
-            
         }
     }
 
@@ -59,21 +51,13 @@
                             <span class="block font-bold mb-2 text-blue-500 text-2xl">Inicio de Sesión</span>
                         </div>
 
-                        <form @submit.prevent="signin">
+                        <form @submit.prevent="signin" autocomplete="off">
                             
-                            <Input ide="email" label="Email" type-input="text" placeholder="example@gmail.com"
+                            <Input ide="username" label="Nombre usuario" type-input="text" placeholder="example"
                                     v-model="username" />
                             
                             <Input ide="password" label="Password" type-input="password" placeholder="********" 
                                     v-model="password" />
-
-                            <div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-transparent peer-focus:outline-none rounded-full peer dark:bg-slate-200 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span class="ml-3 text-sm font-normal text-gray-400">Remember me</span>
-                                </label>
-                            </div>
 
                             <div class="text-center mt-6">
                                 <button

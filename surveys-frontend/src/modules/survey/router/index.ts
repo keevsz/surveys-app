@@ -8,14 +8,14 @@ export default {
             component: () => import('../views/Home.vue')
         },
         {
-            path: 'uno',
-            name: 'survey-uno',
-            component: () => import('../views/Uno.vue'),
+            path: 'create',
+            name: 'survey-create',
+            component: () => import('../views/Create.vue'),
         },
         {
-            path: 'dos',
-            name: 'survey-dos',
-            component: () => import('../views/Dos.vue'),
+            path: 'list',
+            name: 'survey-list',
+            component: () => import('../views/List.vue'),
         },
     ]
 }

@@ -27,7 +27,6 @@
         
             <!-- CONTENT -->
             <div class="p-7 grid grid-cols-12 custom-height overflow-x-hidden">
-                <!-- <h1 class="text-lg mb-6 col-span-12">Edit Profile</h1> -->
                 <Detail v-if="user.username" />
                 <Photo />
             </div>

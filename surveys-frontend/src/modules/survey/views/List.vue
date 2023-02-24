@@ -1,5 +1,5 @@
 <template>
     <div class="">
-        <h1>dos</h1>
+        <h1>List</h1>
     </div>
 </template>

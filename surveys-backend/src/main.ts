@@ -10,7 +10,7 @@ import { Logger } from '@nestjs/common/services';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: { origin: process.env.CLIENT_ENDPOINT, credentials: true },
+    cors: { origin: 'http://localhost:5173', credentials: true },
   });
   const logger = new Logger('Main');
   const sessionRepository = app.get(DataSource).getRepository(Session);

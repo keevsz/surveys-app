@@ -8,24 +8,30 @@
 
     const router = useRouter()
 
-    const email : Ref<string> = ref('')
+    const name :  Ref<string> = ref('')
+    const lastname :  Ref<string> = ref('')
+    const username : Ref<string> = ref('')
+    const email :  Ref<string> = ref('')
     const password :  Ref<string> = ref('')
 
     const signup = async () => {
 
         const { register } = useAuth()
         let user = {
-            username: email.value,
+            name: name.value,
+            lastname: lastname.value,
+            username: username.value,
+            email: email.value,
             password: password.value
         }
 
         try {
-            const aux : any = await register(user)
+            await register(user)
 
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `${aux.statusText}`,
+                title: 'Successful registration',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -38,7 +44,7 @@
                 showConfirmButton: false,
                 timer: 2000
             })
-            email.value = ""
+            username.value = ""
         }
     }
 
@@ -57,9 +63,18 @@
                             <span class="block font-bold mb-2 text-blue-500 text-2xl">Regístrate</span>
                         </div>
 
-                        <form @submit.prevent="signup">
+                        <form @submit.prevent="signup" autocomplete="off">
                             
-                            <Input ide="email" label="Email" type-input="text" placeholder="example@gmail.com"
+                            <Input ide="name" label="Nombres" type-input="text" placeholder="Ingrese nombre"
+                                    v-model="name" />
+
+                            <Input ide="lastname" label="Apellidos" type-input="text" placeholder="Ingrese apellidos"
+                                    v-model="lastname" />
+
+                            <Input ide="username" label="Nombre usuario" type-input="text" placeholder="Ingrese nombre usuario"
+                                    v-model="username" />
+
+                            <Input ide="email" label="Email" type-input="email" placeholder="Ingrese email"
                                     v-model="email" />
                             
                             <Input ide="password" label="Password" type-input="password" placeholder="********" 
