@@ -1,32 +1,19 @@
 <script lang="ts" setup>
-    import type { Ref } from 'vue'
-    import { ref } from 'vue'
     import Input from '../components/Input.vue'
     import { useAuth } from '../composables/useAuth'
     import { useRouter } from 'vue-router'
     import Swal from 'sweetalert2'
+    import { Form } from 'vee-validate'
+    import { schemaRegister } from '../utils/schemaValidation'
 
     const router = useRouter()
 
-    const name :  Ref<string> = ref('')
-    const lastname :  Ref<string> = ref('')
-    const username : Ref<string> = ref('')
-    const email :  Ref<string> = ref('')
-    const password :  Ref<string> = ref('')
-
-    const signup = async () => {
+    const signup = async (values : any) => {
 
         const { register } = useAuth()
-        let user = {
-            name: name.value,
-            lastname: lastname.value,
-            username: username.value,
-            email: email.value,
-            password: password.value
-        }
 
         try {
-            await register(user)
+            await register(values)
 
             Swal.fire({
                 position: 'top-end',
@@ -42,44 +29,59 @@
                 icon: 'error',
                 title: `${error.message}`,
                 showConfirmButton: false,
-                timer: 2000
+                timer: 2500
             })
-            username.value = ""
         }
     }
 
 </script>
 
 <template>
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto my-10">
         <div class="flex content-center items-center justify-center h-full">
             <div class="w-full lg:w-4/12 px-4">
                 <div
                 class="relative flex flex-col min-w-0 break-words w-full"
                 >
                 
-                    <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+                    <div class="flex-auto px-4 lg:px-10 pb-2 pt-0">
                         <div class="mb-4">
                             <span class="block font-bold mb-2 text-blue-500 text-2xl">Regístrate</span>
                         </div>
 
-                        <form @submit.prevent="signup" autocomplete="off">
+                        <Form @submit="signup"
+                            :validation-schema="schemaRegister"
+                            autocomplete="off">
                             
-                            <Input ide="name" label="Nombres" type-input="text" placeholder="Ingrese nombre"
-                                    v-model="name" />
+                            <Input name="name"
+                                label="Nombres"
+                                type-input="text"
+                                placeholder="Ingrese nombre"
+                                 />
 
-                            <Input ide="lastname" label="Apellidos" type-input="text" placeholder="Ingrese apellidos"
-                                    v-model="lastname" />
+                            <Input name="lastname"
+                                label="Apellidos"
+                                type-input="text"
+                                placeholder="Ingrese apellidos"
+                                 />
 
-                            <Input ide="username" label="Nombre usuario" type-input="text" placeholder="Ingrese nombre usuario"
-                                    v-model="username" />
+                            <Input name="username"
+                                label="Nombre usuario"
+                                type-input="text"
+                                placeholder="Ingrese nombre usuario"
+                                 />
 
-                            <Input ide="email" label="Email" type-input="email" placeholder="Ingrese email"
-                                    v-model="email" />
+                            <Input name="email"
+                                label="Email"
+                                type-input="email"
+                                placeholder="Ingrese email"
+                                 />
                             
-                            <Input ide="password" label="Password" type-input="password" placeholder="********" 
-                                    v-model="password" />
-
+                            <Input name="password"
+                                label="Password"
+                                type-input="password"
+                                placeholder="********"
+                                 />
                             
                             <div class="text-center mt-6">
                                 <button
@@ -89,11 +91,11 @@
                                 Ingresar
                                 </button>
                             </div>
-                        </form>
+                        </Form>
                     </div>
                 </div>
                 <div class="w-full text-center">
-                    <span class="text-gray-500">
+                    <span class="text-gray-500 text-sm">
                         ¿Tienes una cuenta?
                         <router-link :to="{ name: 'login' }"
                             class="text-blue-500">

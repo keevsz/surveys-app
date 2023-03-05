@@ -55,7 +55,7 @@
 </script>
 
 <template>
-    <div class="bg-cf-3 flex justify-between items-center h-16 w-full
+    <div class="bg-cf-2 flex justify-between items-center h-16 w-full
         lg:justify-end">
         <font-awesome-icon
             icon="fa-solid fa-bars" class="block lg:hidden ml-2 text-white/70 hover:cursor-pointer" @click="handleSidebar" />
@@ -64,9 +64,8 @@
             @click="handleToggle">
             <div class="flex justify-center items-center ">
                 <img :src="storeUser.pic" alt="profile"
-                    class="none-select rounded-full h-10 w-10">
+                    class="none-select object-cover rounded-full h-10 w-10">
             </div>
-            <!-- <font-awesome-icon icon="fa-solid fa-caret-down" class="text-white/80" /> -->
         </div>
         <div class="absolute z-50 right-5 top-14 border bg-white text-gray-500 w-32 rounded-sm text-center divide-y divide-solid" v-show="storeSurvey.toggle">
             <span v-for="(option, index) in options" :key="index"

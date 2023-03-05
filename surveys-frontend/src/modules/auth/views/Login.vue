@@ -1,20 +1,19 @@
 <script lang="ts" setup>
     import Input from '../components/Input.vue'
-    import { Ref, ref } from 'vue'
     import { useAuth } from '../composables/useAuth'
     import { useRouter } from 'vue-router'
     import Swal from 'sweetalert2'
+    import { Form } from 'vee-validate'
+    import { schemaLogin } from '../utils/schemaValidation'
 
     const router = useRouter()
-
-    const username : Ref<string> = ref('')
-    const password :  Ref<string> = ref('')
     
-    const signin = async () => {
+    const signin = async (values : any) => {
+        
         const { login } = useAuth()
 
         try {
-            await login(username.value, password.value)
+            await login(values.username, values.password)
             
             Swal.fire({
                 position: 'top-end',
@@ -39,7 +38,7 @@
 </script>
 
 <template>
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto my-10">
         <div class="flex content-center items-center justify-center h-full">
             <div class="w-full lg:w-4/12 px-4">
                 <div
@@ -51,13 +50,24 @@
                             <span class="block font-bold mb-2 text-blue-500 text-2xl">Inicio de Sesión</span>
                         </div>
 
-                        <form @submit.prevent="signin" autocomplete="off">
+                        <Form
+                            @submit="signin"
+                            :validation-schema="schemaLogin"
+                            autocomplete="off">
                             
-                            <Input ide="username" label="Nombre usuario" type-input="text" placeholder="example"
-                                    v-model="username" />
+                            <Input 
+                                name="username"
+                                label="Nombre usuario"
+                                type-input="text"
+                                placeholder="example"
+                            />
                             
-                            <Input ide="password" label="Password" type-input="password" placeholder="********" 
-                                    v-model="password" />
+                            <Input 
+                                name="password"
+                                label="Password"
+                                type-input="password"
+                                placeholder="********"
+                            />
 
                             <div class="text-center mt-6">
                                 <button
@@ -67,11 +77,11 @@
                                 Ingresar
                                 </button>
                             </div>
-                        </form>
+                        </Form>
                     </div>
                 </div>
                 <div class="w-full text-center">
-                    <span class="text-gray-500">
+                    <span class="text-gray-500 text-sm">
                         ¿No tienes una cuenta?
                         <router-link :to="{ name: 'register' }"
                             class="text-blue-500">

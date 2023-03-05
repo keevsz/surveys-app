@@ -25,7 +25,7 @@
     const links : Ref<IItems[]> = ref([
         {
             link: 'home-survey',
-            name: 'Dashboard',
+            name: 'Inicio',
             icon: 'fa-solid fa-gauge-high',
             isExpanded: false
         },
@@ -66,10 +66,10 @@
 </script>
 
 <template>
-    <div class="bg-cf-3 h-screen text-white/90 hidden lg:block md:col-span-2"
+    <div class="bg-cf-2 h-screen text-white/90 hidden lg:block md:col-span-2"
     :class="{ 'block' : flagValue }">
         <div class="flex justify-center items-center h-16">
-            <h1>Logo</h1>
+            <!-- <h1>Logo</h1> -->
         </div>
         <div class="ml-4 mr-4 mt-2 flex flex-col">
             <template v-for="(link, index) in links">
@@ -82,7 +82,7 @@
                             <font-awesome-icon :icon="link.expanded ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'" />
                         </div>
                     </div>
-                    <div v-if="link.expanded" class="bg-cf-3 rounded-md max-h-48 overflow-y-auto">
+                    <div v-if="link.expanded" class="bg-cf-2 rounded-md max-h-48 overflow-y-auto">
                         <router-link v-for="(subLink, subIndex) in link.subLinks" :key="subIndex"
                             class="h-12 items-center flex md:pl-3 duration-150 hover:bg-cf-1 hover:cursor-pointer"
                             :to="{ name: subLink.link }">
@@ -103,7 +103,7 @@
 
 
     <div :class="[ flagValue ? 'w-1/2 border-r rounded-tr-xl' : 'w-0' ]"
-     class="min-h-screen absolute top-0 z-50 bg-cf-3 text-white/90 duration-300">
+     class="min-h-screen absolute top-0 z-50 bg-cf-2 text-white/90 duration-300">
         <div class="flex flex-col ml-4 mr-4 mt-2">
             <div class="flex justify-end mt-1">
                 <font-awesome-icon :class="[ flagValue ? 'block duration-300' : 'hidden' ]"
@@ -113,14 +113,14 @@
             <template v-if="flagValue" v-for="(link, index) in links">
                 <div v-if="link.subLinks">
                     <div @click="link.expanded = !link.expanded"
-                        class="h-12 flex items-center pl-2 duration-150 hover:bg-cf-1 cursor-pointer">
+                        class="h-12 flex items-center pl-2 duration-150 hover:bg-cf-2 cursor-pointer">
                         <font-awesome-icon :icon="link.icon" class="mr-2" />
                         {{ link.name }}
                         <div class="ml-auto">
                             <font-awesome-icon :icon="link.expanded ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'" />
                         </div>
                     </div>
-                    <div v-if="link.expanded" class="ml-4 bg-cf-3 rounded-md max-h-48 overflow-y-auto">
+                    <div v-if="link.expanded" class="ml-4 bg-cf-2 rounded-md max-h-48 overflow-y-auto">
                         <span v-for="(subLink, subIndex) in link.subLinks" :key="subIndex"
                                     class="h-12 flex items-center md:pl-3 pl-0 duration-150 hover:bg-cf-1 cursor-pointer"
                                     @:click="change(subLink.link)">
@@ -130,7 +130,7 @@
                     </div>
                 </div>
                 <span v-else :key="index"
-                    class="h-12 flex items-center pl-2 duration-150 hover:bg-cf-1 cursor-pointer"
+                    class="h-12 flex items-center pl-2 duration-150 hover:bg-cf-2 cursor-pointer"
                     @:click="change(link.link as string)">
                     <font-awesome-icon :icon="link.icon" class="mr-2" />
                     {{ link.name }}
@@ -147,7 +147,7 @@
 }
 
 .router-link-exact-active {
-    background-color: #1F4068;
+    background-color: #162447;
     border-radius: 5px;
 }
 </style>

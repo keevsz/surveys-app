@@ -39,9 +39,7 @@ export const useAuth = () => {
                     pic: 'https://cdn-icons-png.flaticon.com/512/6073/6073873.png'
                 })
                 resolve(true)
-            } catch (error : any) {
-                console.log(error);
-                
+            } catch (error : any) {                
                 let send = error?.response.data
                 reject(send)                
             }

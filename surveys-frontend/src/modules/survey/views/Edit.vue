@@ -1,15 +1,19 @@
 <script setup lang="ts">
     import { ref, watch, Ref, onMounted } from 'vue'
+    import { useRouter, useRoute } from 'vue-router'
     import Modal from '../components/Modal.vue'
     import { uid } from 'uid'
     import { useSurveyStore } from '../../../store/survey'
-    import { createSurveyAdapter } from '../adapter/index'
+    import { createxSurveyAdapter } from '../adapter/index'
     import { useSurvey } from '../composables/useSurvey'
     import { Squeleton } from '../interfaces/survey'
     import Swal from 'sweetalert2'
 
+    const route = useRoute()
+    const router = useRouter()
+
     const xi = ref(0)
-    const info = ref([])
+    const algo = ref([])
 
     const title = ref<HTMLInputElement | null>(null)
 
@@ -40,14 +44,13 @@
 
     const addQuestion = () => {
         const question = {
-            idQ: uid(),
+            id: uid(),
             title: titleQt.value,
             valuable: valuable.value,
             required: required.value,
             alternatives: xalternatives.value.filter((i : any) => i.description !== '')
         }
-
-        store.questions.push(question)
+        store.xquestions.push(question)
         
         titleQt.value = ''
         xalternatives.value = []
@@ -57,12 +60,11 @@
 
     const editQuestion = ( id : string, index : number ) => {
         store.showModal = true
-        info.value = store.questions.filter((item : any) => item.idQ === id)
+        algo.value = store.xquestions.filter((item : any) => item.id === id)
         xi.value = index
     }
 
     const removeQuestion = async ( index : string ) => {
-        
         const result = await Swal.fire({
             title: '¿Estás seguro?',
             text: '¿Quieres eliminar esta pregunta?',
@@ -73,7 +75,7 @@
         })
 
         if (result.isConfirmed) {
-            store.questions = store.questions.filter( (item : any) => item.idQ !== index )
+            store.xquestions = store.xquestions.filter( (item : any) => item.id !== index )
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -85,27 +87,30 @@
     }
 
     const saveQuestion = async () => {
+        const data = createxSurveyAdapter(store)
         
-        const data = createSurveyAdapter(store)
-        
-        const { createQuestion } = useSurvey()
+        const { updateSurvey } = useSurvey()
         try {
-            await createQuestion(data)
+            await updateSurvey(route.params.id as string, data)
             
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Encuesta creada',
+                title: 'Encuesta modificada',
                 showConfirmButton: false,
                 timer: 1500
             })
             store.clearStore()
+            store.xquestions = []
             inputTi.value = ''
+            
+            router.push({ name: 'survey-list' })
+
         } catch (error) {
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: 'Error al crear',
+                title: 'Error al modificar',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -113,17 +118,21 @@
     }
 
 
-    watch(() => inputTi.value, () => store.title = inputTi.value)
+    watch(() => inputTi.value, () => store.xtitle = inputTi.value)
 
 
     watch(() => titleQt.value, (a : String) => {
         a.length > 0 ? flagB.value = true : flagB.value = false
     })
 
-    onMounted(() => {
-        if (store.title) {
-            inputTi.value = store.title
-        }
+    onMounted( async () => {
+        const { getOneSurvey } = useSurvey()
+
+        const res : any = await getOneSurvey(route.params.id as string)
+        
+        store.xtitle = res.data.title
+        store.xquestions = res.data.questions
+        inputTi.value = store.xtitle
     })
 
 </script>
@@ -221,10 +230,10 @@
             </div>
 
             
-            <div v-for="(question, index) in store.questions" :key="question.idQ" class="px-3 py-4">
+            <div v-for="(question, index) in store.xquestions" :key="question.id" class="px-3 py-4">
                 <div class="flex items-center mb-3 border-b pb-4">
                     <div class="block sm:flex w-full h-12">
-                        <div class="flex overflow-x-scroll sm:overflow-x-hidden w-full items-center">
+                        <div class="flex overflow-x-scroll md:overflow-x-hidden w-full items-center">
                             <span class="font-bold text-lg mr-2">P{{ index+1 }}</span>
                             <input type="text"
                                 class="w-full pl-2 focus:outline-none inline mb-1 sm:mb-0"
@@ -234,12 +243,12 @@
                         </div>
                         <div class="flex justify-center mt-1 sm:mt-0 sm:w-1/4">
                             <button class="w-auto mr-1 text-gray-700  duration-200 ease-in-out"
-                                @click="editQuestion(question.idQ, index)">
+                                @click="editQuestion(question.id, index)">
                                 Editar
                                 <font-awesome-icon icon="fa-solid fa-pen-to-square" />
                             </button>
                             <button class="w-auto text-gray-700  duration-200 ease-in-out"
-                                @click="removeQuestion(question.idQ)">
+                                @click="removeQuestion(question.id)">
                                 Borrar
                                 <font-awesome-icon icon="fa-solid fa-trash" />
                             </button>
@@ -248,7 +257,7 @@
                 </div>
 
                 <!-- xALTERNATIVES -->
-                <div v-for="item in question.alternatives" :key="item.uid"
+                <div v-for="item in question.alternatives" :key="item.id"
                     class="py-1">
                     <div class="flex h-10 items-center px-6">
                         <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
@@ -262,11 +271,11 @@
                     w-full block mb-2 font-semibold sm:text-lg hover:cursor-pointer"
                     @click="saveQuestion"
                     :disabled="!inputTi">
-                    Guardar Encuesta
+                    Guardar Cambios
                 </button>
             </div>
 
-            <Modal :data="info" :ind="xi" v-if="store.showModal" mode="create" />
+            <Modal :data="algo" :ind="xi" v-if="store.showModal" mode="edit" />
             
         </div>
     </div>

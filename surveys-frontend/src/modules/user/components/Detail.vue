@@ -1,11 +1,13 @@
 <script setup lang="ts">
-    import { Ref, ref } from 'vue'
+    import { Ref, ref, defineEmits } from 'vue';
     import { useUserStore } from '../../../store/user'
     import { useUser } from '../composables/useUser'
     import Swal from 'sweetalert2'
     import { IUser } from '../interfaces'
 
     const user = useUserStore()
+
+    const emits = defineEmits(['isLoading'])
 
     const show : Ref<Boolean> = ref(false)
     const inputType : Ref<string> = ref('password')
@@ -19,7 +21,7 @@
 
     const updateInfo = async () => {
         const { update } = useUser()
-        
+        emits('isLoading')
         try {
 
             let data : IUser = {
@@ -38,7 +40,7 @@
             }
             
             Swal.fire({
-                position: 'top-end',
+                position: 'center',
                 icon: 'success',
                 title: 'Información actualizada!',
                 showConfirmButton: false,
@@ -49,7 +51,7 @@
             
         } catch (error) {
             Swal.fire({
-                position: 'top-end',
+                position: 'center',
                 icon: 'error',
                 title: 'Error!',
                 showConfirmButton: false,
@@ -58,6 +60,7 @@
 
             password.value = ''
         }
+
     }
 
     const handleShow = () => {
@@ -79,33 +82,33 @@
 
             <div class="mb-4 col-span-12 lg:col-span-6 mx-1">
                 <label for="first" class="block mb-2 text-sm font-medium text-gray-900">Nombres</label>
-                <input type="text" id="first" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
+                <input @keydown.enter.prevent type="text" id="first" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
                     v-model="name">
             </div>
             <div class="mb-4 col-span-12 lg:col-span-6 mx-1">
                 <label for="last" class="block mb-2 text-sm font-medium text-gray-900">Apellidos</label>
-                <input type="text" id="last" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
+                <input @keydown.enter.prevent type="text" id="last" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
                     v-model="lastname">
             </div>
             <div class="mb-4 col-span-12 lg:col-span-4 mx-1">
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Nombre de usuario</label>
-                <input type="text" id="username" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
+                <input @keydown.enter.prevent type="text" id="username" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
                     v-model="username">
             </div>
             <div class="mb-4 col-span-12 lg:col-span-4 mx-1">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                <input type="email" id="email" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
+                <input @keydown.enter.prevent type="email" id="email" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
                     v-model="email">
             </div>
             <div class="mb-4 col-span-12 lg:col-span-4 mx-1">
                 <label for="edad" class="block mb-2 text-sm font-medium text-gray-900">Edad</label>
-                <input type="text" id="edad" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
+                <input @keydown.enter.prevent type="text" id="edad" class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
                     v-model="age">
             </div>
             <div class="mb-4 col-span-12 mx-1">
                 <label for="newpas" class="block mb-2 text-sm font-medium text-gray-900">New Password</label>
                 <div class="relative flex items-center">
-                    <input
+                    <input @keydown.enter.prevent
                         :type="inputType"
                         id="newpas"
                         class="border border-gray-300 text-gray-900 text-sm rounded-lg block w-full focus:outline-none p-2.5"
@@ -117,7 +120,7 @@
                     </i>
                 </div>
             </div>
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 col-span-12 rounded-lg py-2">
+            <button type="submit" class="text-white bg-cf-2/90 hover:bg-cf-2/80 focus:ring-4 focus:outline-none focus:ring-blue-300 col-span-12 rounded-lg py-2">
                 Actualizar información
             </button>
         </div>

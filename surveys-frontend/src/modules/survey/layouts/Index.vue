@@ -1,6 +1,7 @@
 <script lang="ts" setup>
     import Navbar from '../../../components/Navbar.vue'
     import Sidebar from '../../../components/Sidebar.vue'
+
 </script>
 
 <template>
@@ -13,7 +14,7 @@
             <Navbar />
         
             <!-- los hijos ~= colocar home -->
-            <div class="p-7 grid grid-cols-12 custom-height overflow-x-hidden">
+            <div class="sm:p-7 p-3 grid grid-cols-12 custom-height overflow-x-hidden">
                 <router-view />
             </div>
         </div>

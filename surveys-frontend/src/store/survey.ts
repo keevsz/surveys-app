@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 
 interface SurveyStore {
-    showModal: boolean,
-    flag: boolean,
-    toggle: boolean,
-    title: string,
+    showModal: boolean
+    flag: boolean
+    toggle: boolean
+    title: string
     questions: any
-
+    xtitle: string
+    xquestions: any
 }
 
 export const useSurveyStore = defineStore('survey', {
@@ -15,7 +16,9 @@ export const useSurveyStore = defineStore('survey', {
         flag: false,
         toggle: false,
         title: '',
-        questions: []
+        questions: [],
+        xtitle: '',
+        xquestions: [],
     }),
 
     actions: {

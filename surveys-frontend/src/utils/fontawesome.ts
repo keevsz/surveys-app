@@ -19,7 +19,12 @@ import { faCaretDown,
         faChevronUp,
         faChevronDown,
         faList,
-        faPlus
+        faPlus,
+        faArrowRight,
+        faChevronLeft,
+        faChevronRight,
+        faAngleLeft,
+        faAngleRight
      } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -41,7 +46,12 @@ library.add(
         faChevronUp,
         faChevronDown,
         faList,
-        faPlus
+        faPlus,
+        faArrowRight,
+        faChevronLeft,
+        faChevronRight,
+        faAngleLeft,
+        faAngleRight
         )
 
 export default FontAwesomeIcon

@@ -19,7 +19,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="select-none">
     <router-view />
   </div>
 </template>

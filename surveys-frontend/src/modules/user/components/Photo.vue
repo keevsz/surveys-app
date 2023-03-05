@@ -1,9 +1,13 @@
 <script setup lang="ts">
     import { useUserStore } from '../../../store/user'
     import { useUser } from '../composables/useUser'
-    import { ref} from 'vue'
+    import { ref, defineEmits } from 'vue'
+    import Swal from 'sweetalert2'
 
     const storeUser = useUserStore()
+
+    const emits = defineEmits(['isLoading'])
+
     const imageSelector = ref<HTMLInputElement | null>(null)
 
     const load = () => {
@@ -23,6 +27,16 @@
             const res : any = await updateImage(reader.result as string)
             await loadImage(res.data.url)
         }
+
+        emits('isLoading')
+
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Foto actualizada!',
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
 </script>
 
@@ -31,7 +45,7 @@
         <div class="flex justify-center relative">
             <img v-if="storeUser.pic"
                 :src="storeUser.pic" alt="asd"
-                class="border-2 w-40 h-40 rounded-full none-select hover:cursor-pointer"
+                class="border-2 w-40 h-40 object-cover rounded-full none-select hover:cursor-pointer"
                 @click="load">
 
             <input type="file" ref="imageSelector" v-show="false"  @input="handleImageUpload" accept="image/png, image/jpeg, image/jpg">
