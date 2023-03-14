@@ -4,7 +4,8 @@ module.exports = {
   content: [
     './index.html',
     './src/App.vue',
-    './src/**/**/*.vue'
+    './src/**/**/*.vue',
+    './node_modules/vue-tailwind-datepicker/**/*.js'
   ],
   theme: {
     extend: {
@@ -16,5 +17,7 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    // require('@tailwindcss/forms')
+  ],
 }

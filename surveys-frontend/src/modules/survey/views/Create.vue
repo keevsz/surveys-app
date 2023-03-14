@@ -8,8 +8,12 @@
     import { Squeleton } from '../interfaces/survey'
     import Swal from 'sweetalert2'
 
+    // import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+
     const xi = ref(0)
     const info = ref([])
+
+    const dateValue : any = ref([])
 
     const title = ref<HTMLInputElement | null>(null)
 
@@ -183,6 +187,10 @@
                         <label for="valu">Valuable*</label>
                     </div>
                 </div>
+
+                <!-- <vue-tailwind-datepicker
+                    as-single
+                    v-model="dateValue" /> -->
 
 
                 <div class="w-full border rounded bg-gray-200"></div>
